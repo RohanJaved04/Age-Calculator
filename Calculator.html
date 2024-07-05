@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="Main">
+        <div class="top">
+            <h1> AGE CALCULATOR </h1>
+        </div>
+        <div class="calculator">
+            <h2> INPUT YOUR DATE OF BIRTH </h2>
+            <input id="dob" type="date" />
+            <p id="ageOutput"></p>
+            <img id="ageImage" src="" alt="Age Image" />
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('dob').addEventListener('change', function () {
+            const dob = new Date(this.value);
+            if (!isNaN(dob.getTime())) {
+                const age = calculateAge(dob);
+                if (age >= 0) {
+                    if (age <= 12)
+                        document.getElementById('ageImage').src = 'Kid.png';
+                    else if (age <= 19)
+                        document.getElementById('ageImage').src = 'teen.png';
+                    else if (age <= 40)
+                        document.getElementById('ageImage').src = 'man.png';
+                    else
+                        document.getElementById('ageImage').src = 'old.png';
+                    document.getElementById('ageImage').style.display = 'block'; 
+                    document.getElementById('ageOutput').textContent = `Your age is ${age} years.`;
+                } else {
+                    document.getElementById('ageOutput').textContent = 'Invalid date of birth.';
+                    document.getElementById('ageImage').style.display = 'none'; 
+                }
+            } else {
+                document.getElementById('ageOutput').textContent = 'Please enter a valid date.';
+                document.getElementById('ageImage').style.display = 'none'; 
+            }
+        });
+
+        function calculateAge(dob) {
+            const now = new Date();
+            let age = now.getFullYear() - dob.getFullYear();
+            const monthDiff = now.getMonth() - dob.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && now.getDate() < dob.getDate())) {
+                age--;
+            }
+            return age;
+        }
+    </script>
+</body>
+</html>
